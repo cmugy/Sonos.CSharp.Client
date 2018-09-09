@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -25,7 +26,12 @@ namespace Sonos.Integration.Services
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
                     //client.DefaultRequestHeaders.Add("content-type", "application/x-www-form-urlencoded");
 
-                    var data = client.GetAsync(url);
+                    var data = client.GetAsync(url).Result;
+
+                    var content = data.Content.ReadAsStringAsync().Result;
+                    
+                    //File.WriteAllText("/Users/collinsmugarura/Tests/text.html", content);
+                    
 
                 }
             }
