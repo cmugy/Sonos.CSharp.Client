@@ -1,4 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Sonos.Integration.Models;
 using Sonos.Integration.Services;
 
 namespace Sonos.Integration.Controllers
@@ -15,10 +18,18 @@ namespace Sonos.Integration.Controllers
         [HttpGet, Route("api/sonos")]
         public object GetSonosAuthorisation()
         {
-            _client.ConnectToSonos();
+            //_client.ConnectToSonos();
+            _client.ConnectWithCode();
 
 
             return null;
         }
+
+        [HttpGet, Route("api/sonos/household")]
+        public IEnumerable<HouseHold> GetSonosHouseHolds()
+        {
+            return _client.GetSonosHouseHolds();
+        }
+        
     }
 }
