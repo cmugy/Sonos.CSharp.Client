@@ -26,9 +26,15 @@ namespace Sonos.Integration.Controllers
         }
 
         [HttpGet, Route("api/sonos/household")]
-        public IEnumerable<HouseHold> GetSonosHouseHolds()
+        public HouseHold GetSonosHouseHolds()
         {
             return _client.GetSonosHouseHolds();
+        }
+
+        [HttpGet, Route("api/sonos/household/{id}")]
+        public InternalHouseHoldResponse GetSonosSetUp(string id)
+        {
+            return _client.GetSonosSetUp(id);
         }
         
     }

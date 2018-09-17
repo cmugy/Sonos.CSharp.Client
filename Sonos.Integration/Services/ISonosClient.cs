@@ -10,6 +10,10 @@ namespace Sonos.Integration.Services
     {
         void ConnectToSonos();
         void ConnectWithCode();
-        IEnumerable<HouseHold> GetSonosHouseHolds();
+        HouseHold GetSonosHouseHolds();
+        string GetNewRefreshedToken(string refreshToken);
+        InternalHouseHoldResponse GetSonosSetUp(string id);
+
+
     }
 }

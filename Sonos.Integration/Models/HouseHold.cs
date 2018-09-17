@@ -5,6 +5,6 @@ namespace Sonos.Integration.Models
     [DataContract (Namespace = "")]
     public class HouseHold
     {
-        [DataMember (Name = "id")] public int Id { get; set; }
+        [DataMember (Name = "id")] public string Id { get; set; }
     }
 }
