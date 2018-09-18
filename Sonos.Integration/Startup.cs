@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Sonos.Integration.Services;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Sonos.Integration
 {
@@ -25,6 +26,19 @@ namespace Sonos.Integration
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Title = "Home Sonos Controller", Version = "v1", Contact = new Contact
+                    {
+                        Email = "collismugy@hotmail.com",
+                        Name = "Collins Mugarura",
+                        Url = "https://twitter.com/mugy03"
+                    }
+                });
+            });
             
             services.AddScoped<ISonosClient, SonosClient>();
         }
@@ -36,8 +50,17 @@ namespace Sonos.Integration
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseMvc();
+            
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sonos.Home.Client");
+            });
+
+            
+
+            app.UseSwagger();
         }
     }
 }
