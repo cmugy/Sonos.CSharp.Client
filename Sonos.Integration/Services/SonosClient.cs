@@ -269,5 +269,71 @@ namespace Sonos.Integration.Services
                 throw;
             }
         }
+
+        public void PlayOnGroup(string groupId)
+        {
+            const string url = "https://api.ws.sonos.com/control/api/";
+            try
+            {
+                using (var client = new HttpClient())
+                {
+
+
+                    client.Timeout = TimeSpan.FromMinutes(1);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Clear();
+                    //client.BaseAddress = new Uri(url);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
+                    {
+                        CharSet = "utf-8"
+                    });
+
+                    client.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue("Bearer", "72f23086-3d01-4c1c-869c-679c4799ed79");
+
+                    //var result = client.PostAsync($"groups/{groupId}/playback:1/play", new StringContent("")).Result;
+
+                    
+
+                    using (var message =
+                        new HttpRequestMessage(HttpMethod.Post, $"https://api.ws.sonos.com/control/api/v1/groups/{groupId}/playback:1/play")
+                    )
+                    {
+                        //message.Content = new StringContent(string.Empty, Encoding.UTF8, "application/json");
+                        message.Content = null;
+                        
+                        
+                        message.Headers.Accept.Clear();
+                        message.Headers.Clear();
+                        
+                        //message.Headers.Add("Content-Length", "0");
+                        
+                        message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
+                        {
+                            CharSet = "utf-8"
+                        });
+
+                        var response = client.SendAsync(message).Result;
+                        
+                        if (response.StatusCode == HttpStatusCode.OK)
+                        {
+                            var data = response.Content.ReadAsStringAsync().Result;
+
+                            var headers = response.Headers;
+                        }
+
+                        var output = response.Content.ReadAsStringAsync().Result;
+
+                    }
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
     }
 }

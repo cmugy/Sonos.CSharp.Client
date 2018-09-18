@@ -13,6 +13,7 @@ namespace Sonos.Integration.Services
         HouseHold GetSonosHouseHolds();
         string GetNewRefreshedToken(string refreshToken);
         InternalHouseHoldResponse GetSonosSetUp(string id);
+        void PlayOnGroup(string groupId);
 
 
     }

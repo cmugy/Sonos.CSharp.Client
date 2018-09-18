@@ -36,6 +36,12 @@ namespace Sonos.Integration.Controllers
         {
             return _client.GetSonosSetUp(id);
         }
+
+        [HttpPost, Route("api/sonos/group/{groupId}")]
+        public void PlayOnSonosGroup(string groupId)
+        {
+            _client.PlayOnGroup(groupId);
+        }
         
     }
 }
