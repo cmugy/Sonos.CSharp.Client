@@ -14,6 +14,8 @@ namespace Sonos.Integration.Services
         string GetNewRefreshedToken(string refreshToken);
         InternalHouseHoldResponse GetSonosSetUp(string id);
         void PlayOnGroup(string groupId);
+        int GetGroupVolume(string groupId);
+        void SetGroupVolume(SetGroupVolume groupVolume);
 
 
     }

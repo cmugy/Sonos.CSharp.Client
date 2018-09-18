@@ -335,5 +335,89 @@ namespace Sonos.Integration.Services
                 throw;
             }
         }
+
+        public int GetGroupVolume(string groupId)
+        {
+            const string url = "https://api.ws.sonos.com/control/api/v1/";
+            try
+            {
+                using (var client= new HttpClient())
+                {
+                    client.Timeout = TimeSpan.FromMinutes(1);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Clear();
+                    client.BaseAddress = new Uri(url);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
+                    {
+                        CharSet = "utf-8"
+                    });
+
+                    client.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue("Bearer", "72f23086-3d01-4c1c-869c-679c4799ed79");
+
+                    var response = client.GetAsync($"groups/{groupId}/groupVolume").Result;
+
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        var result = response.Content.ReadAsStringAsync().Result;
+
+                        var data = JsonConvert.DeserializeObject<VolumeModel>(result);
+
+                        return data.Volume;
+                    }
+
+                    return 0;
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public void SetGroupVolume(SetGroupVolume groupVolume)
+        {
+            const string baseUrl = "https://api.ws.sonos.com/control/api/v1/";
+            var control= new VolumeControl
+            {
+                Volume = groupVolume.Volume
+            };
+
+            var json = JsonConvert.SerializeObject(control);
+
+            try
+            {
+                using (var client= new HttpClient())
+                {
+                    client.Timeout = TimeSpan.FromMinutes(1);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Clear();
+                    client.BaseAddress = new Uri(baseUrl);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
+                    {
+                        CharSet = "utf-8"
+                    });
+
+                    client.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue("Bearer", "72f23086-3d01-4c1c-869c-679c4799ed79");
+
+                    var response = client.PostAsync($"groups/{groupVolume.GroupId}/groupVolume",
+                        new StringContent(json, Encoding.UTF8, "application/json")).Result;
+
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        var result = response.Content.ReadAsStringAsync().Result;
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
     }
 }
