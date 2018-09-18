@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Sonos.Integration.Models;
+using Sonos.Integration.Models.SonosStatus;
 using Sonos.Integration.ParameterValidation;
 using Sonos.Integration.Services;
 
@@ -83,6 +84,17 @@ namespace Sonos.Integration.Controllers
         {
             _parameterValidator.VolumeLevelCheck(setGroupVolume.Volume);
             _client.SetGroupVolume(setGroupVolume);
+        }
+        
+        /// <summary>
+        /// Returns the current response of the group
+        /// </summary>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
+        [HttpGet, Route("api/sonos/status/{groupId}")]
+        public PlayBackStatusResponse GetGroupStatus(string groupId)
+        {
+            return _client.GetPlaybackStatusResponse(groupId);
         }
         
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Sonos.Integration.Models;
+using Sonos.Integration.Models.SonosStatus;
 
 namespace Sonos.Integration.Services
 {
@@ -16,6 +17,7 @@ namespace Sonos.Integration.Services
         void PlayOnGroup(string groupId);
         int GetGroupVolume(string groupId);
         void SetGroupVolume(SetGroupVolume groupVolume);
+        PlayBackStatusResponse GetPlaybackStatusResponse(string groupId);
 
 
     }

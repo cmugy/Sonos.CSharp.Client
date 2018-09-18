@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.ResponseCaching.Internal;
 using Newtonsoft.Json;
 using Sonos.Integration.Models;
+using Sonos.Integration.Models.SonosStatus;
 
 namespace Sonos.Integration.Services
 {
@@ -410,6 +411,49 @@ namespace Sonos.Integration.Services
                     {
                         var result = response.Content.ReadAsStringAsync().Result;
                     }
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public PlayBackStatusResponse GetPlaybackStatusResponse(string groupId)
+        {
+            var baseUrl = "https://api.ws.sonos.com/control/api/v1/";
+
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.Timeout = TimeSpan.FromMinutes(1);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Clear();
+                    client.BaseAddress = new Uri(baseUrl);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
+                    {
+                        CharSet = "utf-8"
+                    });
+
+                    client.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue("Bearer", "72f23086-3d01-4c1c-869c-679c4799ed79");
+
+                    var response = client.GetAsync($"groups/{groupId}/playback").Result;
+
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        var result = response.Content.ReadAsStringAsync().Result;
+
+                        var status = JsonConvert.DeserializeObject<PlayBackStatusResponse>(result);
+
+                        return status;
+                    }
+
+                    return null;
+
                 }
 
             }
