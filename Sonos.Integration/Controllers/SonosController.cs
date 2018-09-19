@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Sonos.Integration.Models;
+using Sonos.Integration.Models.Request;
 using Sonos.Integration.Models.SonosStatus;
 using Sonos.Integration.ParameterValidation;
 using Sonos.Integration.Services;
@@ -27,7 +28,9 @@ namespace Sonos.Integration.Controllers
         public object GetSonosAuthorisation()
         {
             //_client.ConnectToSonos();
-            _client.ConnectWithCode();
+            //_client.ConnectWithCode();
+
+            var tok = _client.GetNewRefreshedToken("09efe8c1-d142-42fd-9248-5f966a6c31d8");
 
 
             return null;
@@ -95,6 +98,14 @@ namespace Sonos.Integration.Controllers
         public PlayBackStatusResponse GetGroupStatus(string groupId)
         {
             return _client.GetPlaybackStatusResponse(groupId);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        [HttpPost, Route("api/sonos/groupPlayers")]
+        public void GroupPlayers([FromBody] PlayerRequest request)
+        {
+            
         }
         
     }

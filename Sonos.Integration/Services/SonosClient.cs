@@ -16,6 +16,7 @@ namespace Sonos.Integration.Services
 {
     public class SonosClient : ISonosClient
     {
+        private const string Token = "2ff15191-4dcf-47b9-8bdb-afed47505f1c";
         public void ConnectToSonos()
         {
             const string key = "3608847c-9729-4a98-88ab-4089d36f9407";
@@ -157,7 +158,7 @@ namespace Sonos.Integration.Services
                     });
 
                     client.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", "72f23086-3d01-4c1c-869c-679c4799ed79");
+                        new AuthenticationHeaderValue("Bearer", Token);
 
 
                     var data = client.GetAsync("v1/households").Result;
@@ -190,6 +191,11 @@ namespace Sonos.Integration.Services
                     client.Timeout = TimeSpan.FromMinutes(1);
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    
+                    client.DefaultRequestHeaders.Add("Authorization",
+                        "Basic " +
+                        "MzYwODg0N2MtOTcyOS00YTk4LTg4YWItNDA4OWQzNmY5NDA3OjRhYzViYWJmLWY1NWQtNDEzMS04YzAyLWZmMGJjZDRjMmViYg==");
 
                     using (var message =
                         new HttpRequestMessage(HttpMethod.Post, "https://api.sonos.com/login/v3/oauth/access"))
@@ -242,7 +248,7 @@ namespace Sonos.Integration.Services
                     });
 
                     client.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", "72f23086-3d01-4c1c-869c-679c4799ed79");
+                        new AuthenticationHeaderValue("Bearer", Token);
 
                     var result = client.GetAsync($"v1/households/{id}/groups").Result;
 
@@ -290,7 +296,7 @@ namespace Sonos.Integration.Services
                     });
 
                     client.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", "72f23086-3d01-4c1c-869c-679c4799ed79");
+                        new AuthenticationHeaderValue("Bearer", Token);
 
                     //var result = client.PostAsync($"groups/{groupId}/playback:1/play", new StringContent("")).Result;
 
@@ -354,7 +360,7 @@ namespace Sonos.Integration.Services
                     });
 
                     client.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", "72f23086-3d01-4c1c-869c-679c4799ed79");
+                        new AuthenticationHeaderValue("Bearer", Token);
 
                     var response = client.GetAsync($"groups/{groupId}/groupVolume").Result;
 
@@ -402,7 +408,7 @@ namespace Sonos.Integration.Services
                     });
 
                     client.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", "72f23086-3d01-4c1c-869c-679c4799ed79");
+                        new AuthenticationHeaderValue("Bearer", Token);
 
                     var response = client.PostAsync($"groups/{groupVolume.GroupId}/groupVolume",
                         new StringContent(json, Encoding.UTF8, "application/json")).Result;
@@ -439,7 +445,7 @@ namespace Sonos.Integration.Services
                     });
 
                     client.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", "72f23086-3d01-4c1c-869c-679c4799ed79");
+                        new AuthenticationHeaderValue("Bearer", Token);
 
                     var response = client.GetAsync($"groups/{groupId}/playback").Result;
 
