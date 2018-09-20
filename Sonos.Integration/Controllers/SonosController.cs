@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Sonos.Integration.Models;
 using Sonos.Integration.Models.Request;
+using Sonos.Integration.Models.Response;
 using Sonos.Integration.Models.SonosStatus;
 using Sonos.Integration.ParameterValidation;
 using Sonos.Integration.Services;
@@ -103,9 +104,9 @@ namespace Sonos.Integration.Controllers
         /// 
         /// </summary>
         [HttpPost, Route("api/sonos/groupPlayers")]
-        public void GroupPlayers([FromBody] PlayerRequest request)
+        public GroupResponse GroupPlayers([FromBody] PlayerRequest request)
         {
-            
+            return _client.CreateGroup(request);
         }
         
     }

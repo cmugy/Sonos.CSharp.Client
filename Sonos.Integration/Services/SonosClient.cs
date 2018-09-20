@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.ResponseCaching.Internal;
 using Newtonsoft.Json;
 using Sonos.Integration.Models;
+using Sonos.Integration.Models.Request;
+using Sonos.Integration.Models.Response;
 using Sonos.Integration.Models.SonosStatus;
 
 namespace Sonos.Integration.Services
@@ -462,6 +464,74 @@ namespace Sonos.Integration.Services
 
                 }
 
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public GroupResponse CreateGroup(PlayerRequest request)
+        {
+            const string baseUrl = "https://api.ws.sonos.com/control/api/v1/";
+
+            try
+            {
+                using (var client= new HttpClient())
+                {
+          
+                    
+                        client.Timeout = TimeSpan.FromMinutes(1);
+                        client.DefaultRequestHeaders.Accept.Clear();
+                        client.DefaultRequestHeaders.Clear();
+                        client.BaseAddress = new Uri(baseUrl);
+                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
+                        {
+                            CharSet = "utf-8"
+                        });
+
+                        client.DefaultRequestHeaders.Authorization =
+                            new AuthenticationHeaderValue("Bearer", Token);
+
+                    using (var message = new HttpRequestMessage(HttpMethod.Post,
+                        $"households/{request.HouseholdId}/groups/createGroup"))
+                    {
+                        var content = new SonosGroupRequest
+                        {
+                            PlayerIds = request.PlayerIds
+                        };
+
+                        var json = JsonConvert.SerializeObject(content);
+
+                        message.Content = new StringContent(json, Encoding.UTF8, "application/json");
+                        
+                        message.Headers.Clear();
+                        message.Headers.Accept.Clear();
+                        
+                        
+                        message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
+                        {
+                            CharSet = "utf-8"
+                        });
+
+                        var response = client.SendAsync(message).Result;
+
+                        if (response.StatusCode == HttpStatusCode.OK)
+                        {
+                            var result = response.Content.ReadAsStringAsync().Result;
+
+                            var groupResponse = JsonConvert.DeserializeObject<GroupResponse>(result);
+
+                            return groupResponse;
+                        }
+
+                        return null;
+
+                    }
+
+                }
+            
             }
             catch (Exception e)
             {
