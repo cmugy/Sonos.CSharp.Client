@@ -281,7 +281,7 @@ namespace Sonos.Integration.Services
 
         public void PlayOnGroup(string groupId)
         {
-            const string url = "https://api.ws.sonos.com/control/api/";
+            //const string url = "https://api.ws.sonos.com/control/api/";
             try
             {
                 using (var client = new HttpClient())
