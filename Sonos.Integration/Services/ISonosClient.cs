@@ -21,6 +21,7 @@ namespace Sonos.Integration.Services
         void SetGroupVolume(SetGroupVolume groupVolume);
         PlayBackStatusResponse GetPlaybackStatusResponse(string groupId);
         GroupResponse CreateGroup(PlayerRequest request);
+        void SwitchPlayerToTv(string playerId);
 
 
     }

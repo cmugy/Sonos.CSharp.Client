@@ -18,7 +18,8 @@ namespace Sonos.Integration.Services
 {
     public class SonosClient : ISonosClient
     {
-        private const string Token = "2ff15191-4dcf-47b9-8bdb-afed47505f1c";
+        private const string Token = "670ffede-66b5-429b-863a-3a87df7cfc3f";
+
         public void ConnectToSonos()
         {
             const string key = "3608847c-9729-4a98-88ab-4089d36f9407";
@@ -95,8 +96,8 @@ namespace Sonos.Integration.Services
                         "MzYwODg0N2MtOTcyOS00YTk4LTg4YWItNDA4OWQzNmY5NDA3OjRhYzViYWJmLWY1NWQtNDEzMS04YzAyLWZmMGJjZDRjMmViYg==");
 
                     //var postData = client.PostAsync("https://api.sonos.com/login/v3/oauth/access",
-                        //new StringContent(json, Encoding.UTF8)).Result;
-                    
+                    //new StringContent(json, Encoding.UTF8)).Result;
+
 
                     //var y = postData.Content.ReadAsStringAsync().Result;
 
@@ -107,7 +108,7 @@ namespace Sonos.Integration.Services
                         message.Content = new StringContent(raw, Encoding.UTF8, "application/x-www-form-urlencoded");
                         //message.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
                         message.Headers.Accept.Clear();
-                        
+
                         message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
                         {
                             CharSet = "utf-8"
@@ -144,16 +145,16 @@ namespace Sonos.Integration.Services
 
             try
             {
-                using (var client= new HttpClient(new HttpClientHandler
+                using (var client = new HttpClient(new HttpClientHandler
                 {
                     Credentials = null
                 }))
                 {
                     client.Timeout = TimeSpan.FromMinutes(1);
-                    client.BaseAddress= new Uri(url);
+                    client.BaseAddress = new Uri(url);
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Clear();
-                
+
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
                     {
                         CharSet = "utf-8"
@@ -188,13 +189,13 @@ namespace Sonos.Integration.Services
             try
             {
                 var content = $"grant_type=refresh_token&refresh_token={refreshToken}";
-                using (var client= new HttpClient())
+                using (var client = new HttpClient())
                 {
                     client.Timeout = TimeSpan.FromMinutes(1);
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    
+
                     client.DefaultRequestHeaders.Add("Authorization",
                         "Basic " +
                         "MzYwODg0N2MtOTcyOS00YTk4LTg4YWItNDA4OWQzNmY5NDA3OjRhYzViYWJmLWY1NWQtNDEzMS04YzAyLWZmMGJjZDRjMmViYg==");
@@ -202,10 +203,11 @@ namespace Sonos.Integration.Services
                     using (var message =
                         new HttpRequestMessage(HttpMethod.Post, "https://api.sonos.com/login/v3/oauth/access"))
                     {
-                        message.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
-                        
+                        message.Content =
+                            new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
+
                         message.Headers.Accept.Clear();
-                        
+
                         message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
                         {
                             CharSet = "utf-8"
@@ -238,12 +240,12 @@ namespace Sonos.Integration.Services
             const string url = "https://api.ws.sonos.com/control/api/";
             try
             {
-                using (var client= new HttpClient())
+                using (var client = new HttpClient())
                 {
                     client.Timeout = TimeSpan.FromMinutes(1);
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Clear();
-                    client.BaseAddress= new Uri(url);
+                    client.BaseAddress = new Uri(url);
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
                     {
                         CharSet = "utf-8"
@@ -302,28 +304,29 @@ namespace Sonos.Integration.Services
 
                     //var result = client.PostAsync($"groups/{groupId}/playback:1/play", new StringContent("")).Result;
 
-                    
+
 
                     using (var message =
-                        new HttpRequestMessage(HttpMethod.Post, $"https://api.ws.sonos.com/control/api/v1/groups/{groupId}/playback:1/play")
+                        new HttpRequestMessage(HttpMethod.Post,
+                            $"https://api.ws.sonos.com/control/api/v1/groups/{groupId}/playback:1/play")
                     )
                     {
                         //message.Content = new StringContent(string.Empty, Encoding.UTF8, "application/json");
                         message.Content = null;
-                        
-                        
+
+
                         message.Headers.Accept.Clear();
                         message.Headers.Clear();
-                        
+
                         //message.Headers.Add("Content-Length", "0");
-                        
+
                         message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
                         {
                             CharSet = "utf-8"
                         });
 
                         var response = client.SendAsync(message).Result;
-                        
+
                         if (response.StatusCode == HttpStatusCode.OK)
                         {
                             var data = response.Content.ReadAsStringAsync().Result;
@@ -350,7 +353,7 @@ namespace Sonos.Integration.Services
             const string url = "https://api.ws.sonos.com/control/api/v1/";
             try
             {
-                using (var client= new HttpClient())
+                using (var client = new HttpClient())
                 {
                     client.Timeout = TimeSpan.FromMinutes(1);
                     client.DefaultRequestHeaders.Accept.Clear();
@@ -389,7 +392,7 @@ namespace Sonos.Integration.Services
         public void SetGroupVolume(SetGroupVolume groupVolume)
         {
             const string baseUrl = "https://api.ws.sonos.com/control/api/v1/";
-            var control= new VolumeControl
+            var control = new VolumeControl
             {
                 Volume = groupVolume.Volume
             };
@@ -398,7 +401,7 @@ namespace Sonos.Integration.Services
 
             try
             {
-                using (var client= new HttpClient())
+                using (var client = new HttpClient())
                 {
                     client.Timeout = TimeSpan.FromMinutes(1);
                     client.DefaultRequestHeaders.Accept.Clear();
@@ -478,21 +481,21 @@ namespace Sonos.Integration.Services
 
             try
             {
-                using (var client= new HttpClient())
+                using (var client = new HttpClient())
                 {
-          
-                    
-                        client.Timeout = TimeSpan.FromMinutes(1);
-                        client.DefaultRequestHeaders.Accept.Clear();
-                        client.DefaultRequestHeaders.Clear();
-                        client.BaseAddress = new Uri(baseUrl);
-                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
-                        {
-                            CharSet = "utf-8"
-                        });
 
-                        client.DefaultRequestHeaders.Authorization =
-                            new AuthenticationHeaderValue("Bearer", Token);
+
+                    client.Timeout = TimeSpan.FromMinutes(1);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Clear();
+                    client.BaseAddress = new Uri(baseUrl);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
+                    {
+                        CharSet = "utf-8"
+                    });
+
+                    client.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue("Bearer", Token);
 
                     using (var message = new HttpRequestMessage(HttpMethod.Post,
                         $"households/{request.HouseholdId}/groups/createGroup"))
@@ -505,11 +508,11 @@ namespace Sonos.Integration.Services
                         var json = JsonConvert.SerializeObject(content);
 
                         message.Content = new StringContent(json, Encoding.UTF8, "application/json");
-                        
+
                         message.Headers.Clear();
                         message.Headers.Accept.Clear();
-                        
-                        
+
+
                         message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
                         {
                             CharSet = "utf-8"
@@ -531,11 +534,65 @@ namespace Sonos.Integration.Services
                     }
 
                 }
-            
+
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public void SwitchPlayerToTv(string playerId)
+        {
+            const string baseUrl = "https://api.ws.sonos.com/control/api/v1/";
+
+            try
+            {
+                using (var client = new HttpClient())
+                {
+
+
+                    client.Timeout = TimeSpan.FromMinutes(1);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Clear();
+                    client.BaseAddress = new Uri(baseUrl);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
+                    {
+                        CharSet = "utf-8"
+                    });
+
+                    client.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue("Bearer", Token);
+
+                    using (var message = new HttpRequestMessage(HttpMethod.Post,
+                        $"players/{playerId}/homeTheater"))
+                    {
+                        var content = $"playerId={playerId}";
+
+                        var json = JsonConvert.SerializeObject(content);
+
+                        message.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                        message.Headers.Clear();
+                        message.Headers.Accept.Clear();
+
+
+                        message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
+                        {
+                            CharSet = "utf-8"
+                        });
+
+                        var response = client.SendAsync(message).Result;
+
+                        var code = response.StatusCode;
+
+
+                    }
+                }
+            }
+            catch (Exception e)
+            {
                 throw;
             }
         }

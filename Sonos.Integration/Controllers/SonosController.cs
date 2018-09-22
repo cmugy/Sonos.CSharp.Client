@@ -101,13 +101,25 @@ namespace Sonos.Integration.Controllers
             return _client.GetPlaybackStatusResponse(groupId);
         }
         /// <summary>
-        /// 
+        /// Groups players based on their playerIds
         /// </summary>
         [HttpPost, Route("api/sonos/groupPlayers")]
         public GroupResponse GroupPlayers([FromBody] PlayerRequest request)
         {
             return _client.CreateGroup(request);
         }
+
+        /// <summary>
+        /// Switch input to TV for compatible players
+        /// </summary>
+        /// <param name="playerId"></param>
+        [HttpPost, Route("api/sonos/homeTheatre")]
+        void SwitchPlayerInputToTv(string playerId)
+        {
+            _client.SwitchPlayerToTv(playerId);
+        }
+
+
         
     }
 }
