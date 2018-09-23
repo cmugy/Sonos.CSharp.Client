@@ -26,7 +26,7 @@ namespace Sonos.Integration.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet, Route("api/sonos")]
-        public object GetSonosAuthorisation()
+        public object GetSonosAuthorization()
         {
             //_client.ConnectToSonos();
             //_client.ConnectWithCode();
