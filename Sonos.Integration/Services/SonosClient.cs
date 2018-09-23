@@ -483,8 +483,6 @@ namespace Sonos.Integration.Services
             {
                 using (var client = new HttpClient())
                 {
-
-
                     client.Timeout = TimeSpan.FromMinutes(1);
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Clear();
@@ -568,11 +566,12 @@ namespace Sonos.Integration.Services
                     using (var message = new HttpRequestMessage(HttpMethod.Post,
                         $"players/{playerId}/homeTheater"))
                     {
-                        var content = $"playerId={playerId}";
+                        var content = JsonConvert.SerializeObject(new HomeTheaterRequest {PlayerId = playerId});
 
                         var json = JsonConvert.SerializeObject(content);
 
-                        message.Content = new StringContent(json, Encoding.UTF8, "application/json");
+                        //message.Content = new StringContent(json, Encoding.UTF8, "application/json");
+                        message.Content = null;
 
                         message.Headers.Clear();
                         message.Headers.Accept.Clear();
@@ -585,7 +584,9 @@ namespace Sonos.Integration.Services
 
                         var response = client.SendAsync(message).Result;
 
-                        var code = response.StatusCode;
+                        var result = response.Content.ReadAsStringAsync().Result;
+
+                        //var code = response.StatusCode;
 
 
                     }

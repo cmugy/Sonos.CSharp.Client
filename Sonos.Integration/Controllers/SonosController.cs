@@ -20,7 +20,7 @@ namespace Sonos.Integration.Controllers
             _client = client;
             _parameterValidator = parameterValidator;
         }
-        
+
         /// <summary>
         /// Gets sonos authorisation
         /// </summary>
@@ -36,7 +36,7 @@ namespace Sonos.Integration.Controllers
 
             return null;
         }
-        
+
         /// <summary>
         /// Gets household object from Sonos API
         /// </summary>
@@ -46,17 +46,18 @@ namespace Sonos.Integration.Controllers
         {
             return _client.GetSonosHouseHolds();
         }
-         /// <summary>
-         /// Gets all the sonos metadata in a given household
-         /// </summary>
-         /// <param name="id"></param>
-         /// <returns></returns>
+
+        /// <summary>
+        /// Gets all the sonos metadata in a given household
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet, Route("api/sonos/household/{id}")]
         public InternalHouseHoldResponse GetSonosSetUp(string id)
         {
             return _client.GetSonosSetUp(id);
         }
-        
+
         /// <summary>
         /// Starts playback on a given group
         /// </summary>
@@ -66,8 +67,8 @@ namespace Sonos.Integration.Controllers
         {
             _client.PlayOnGroup(groupId);
         }
-        
-        
+
+
         /// <summary>
         /// Gets volme for a given group in range 0-100
         /// </summary>
@@ -76,9 +77,9 @@ namespace Sonos.Integration.Controllers
         [HttpGet, Route("api/sonos/group/volume/{groupId}")]
         public int GetGroupVolume(string groupId)
         {
-             return _client.GetGroupVolume(groupId);
+            return _client.GetGroupVolume(groupId);
         }
-        
+
         /// <summary>
         /// Sets the group volume
         /// </summary>
@@ -89,7 +90,7 @@ namespace Sonos.Integration.Controllers
             _parameterValidator.VolumeLevelCheck(setGroupVolume.Volume);
             _client.SetGroupVolume(setGroupVolume);
         }
-        
+
         /// <summary>
         /// Returns the current response of the group
         /// </summary>
@@ -100,6 +101,7 @@ namespace Sonos.Integration.Controllers
         {
             return _client.GetPlaybackStatusResponse(groupId);
         }
+
         /// <summary>
         /// Groups players based on their playerIds
         /// </summary>
@@ -114,12 +116,12 @@ namespace Sonos.Integration.Controllers
         /// </summary>
         /// <param name="playerId"></param>
         [HttpPost, Route("api/sonos/homeTheatre")]
-        void SwitchPlayerInputToTv(string playerId)
+        public void SwitchPlayerInputToTv(string playerId)
         {
             _client.SwitchPlayerToTv(playerId);
         }
 
 
-        
+
     }
 }
