@@ -22,7 +22,7 @@ namespace Sonos.Integration.Controllers
         }
 
         /// <summary>
-        /// Gets sonos authorisation
+        /// Gets sonos authorization
         /// </summary>
         /// <returns></returns>
         [HttpGet, Route("api/sonos")]

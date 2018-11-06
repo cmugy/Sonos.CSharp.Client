@@ -1,24 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.ResponseCaching.Internal;
 using Newtonsoft.Json;
 using Sonos.Integration.Models;
 using Sonos.Integration.Models.Request;
 using Sonos.Integration.Models.Response;
 using Sonos.Integration.Models.SonosStatus;
+using Sonos.Integration.Services;
 
-namespace Sonos.Integration.Services
+namespace Smart.Home.Integration.Services
 {
     public class SonosClient : ISonosClient
     {
-        private const string Token = "670ffede-66b5-429b-863a-3a87df7cfc3f";
+        private const string Token = "695b0aae-823c-4877-bf47-13e20c4bf51b";
 
         public void ConnectToSonos()
         {
