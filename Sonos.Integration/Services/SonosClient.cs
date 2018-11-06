@@ -591,7 +591,7 @@ namespace Smart.Home.Integration.Services
             }
             catch (Exception e)
             {
-                throw;
+                Console.WriteLine(e.Message);
             }
         }
     }
