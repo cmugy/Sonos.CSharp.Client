@@ -25,5 +25,11 @@ namespace Sonos.Integration.Controllers
         {
             _client.ConnectToHive(request);
         }
+
+        [HttpGet, Route("devices")]
+        public object GetHiveDevices()
+        {
+            return _client.GetDevices();
+        }
     }
 }

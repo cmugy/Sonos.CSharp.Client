@@ -5,5 +5,6 @@ namespace Hive.Home.Control
     public interface IHiveClient
     {
         void ConnectToHive(HiveLoginRequest request);
+        object GetDevices();
     }
 }
