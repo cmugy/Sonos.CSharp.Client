@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sonos.Integration.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hive.Home.Control", "Hive.Home.Control\Hive.Home.Control.csproj", "{B2721BD3-56B3-46D0-AFD8-7D02B24BDA3B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phillips.Hue.Control", "Phillips.Hue.Control\Phillips.Hue.Control.csproj", "{54D63646-9F63-4F23-90E2-4F6732922042}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B2721BD3-56B3-46D0-AFD8-7D02B24BDA3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2721BD3-56B3-46D0-AFD8-7D02B24BDA3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2721BD3-56B3-46D0-AFD8-7D02B24BDA3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54D63646-9F63-4F23-90E2-4F6732922042}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54D63646-9F63-4F23-90E2-4F6732922042}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54D63646-9F63-4F23-90E2-4F6732922042}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54D63646-9F63-4F23-90E2-4F6732922042}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

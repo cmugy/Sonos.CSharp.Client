@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Phillips.Hue.Control;
 using Smart.Home.Integration.Services;
 using Sonos.Integration.ParameterValidation;
 using Sonos.Integration.Services;
@@ -46,6 +47,7 @@ namespace Sonos.Integration
             services.AddScoped<ISonosClient, SonosClient>();
             services.AddScoped<IParameterValidator, ParameterValidator>();
             services.AddScoped<IHiveClient, HiveClient>();
+            services.AddScoped<IPhillipsHueClient, PhillipsHueClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
