@@ -11,8 +11,6 @@ namespace Sonos.Integration.Services
 {
     public interface ISonosClient
     {
-        void ConnectToSonos();
-        void ConnectWithCode();
         HouseHold GetSonosHouseHolds();
         string GetNewRefreshedToken(string refreshToken);
         InternalHouseHoldResponse GetSonosSetUp(string id);
@@ -22,6 +20,7 @@ namespace Sonos.Integration.Services
         PlayBackStatusResponse GetPlaybackStatusResponse(string groupId);
         GroupResponse CreateGroup(PlayerRequest request);
         void SwitchPlayerToTv(string playerId);
+        void JoinOrCreateSession(string groupId);
 
 
     }

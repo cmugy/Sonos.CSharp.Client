@@ -5,9 +5,11 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using Newtonsoft.Json;
+using Smart.Home.Integration.Helper;
 using Sonos.Integration.Models;
 using Sonos.Integration.Models.Request;
 using Sonos.Integration.Models.Response;
+using Sonos.Integration.Models.SessionRequest;
 using Sonos.Integration.Models.SonosStatus;
 using Sonos.Integration.Services;
 
@@ -15,14 +17,13 @@ namespace Smart.Home.Integration.Services
 {
     public class SonosClient : ISonosClient
     {
-        private const string Token = "695b0aae-823c-4877-bf47-13e20c4bf51b";
+        private const string Token = "c1eac6a2-c31d-4978-ae89-a4d2d9419b00";
 
         public void ConnectToSonos()
         {
             const string key = "3608847c-9729-4a98-88ab-4089d36f9407";
-            var url = new Uri(string.Format(
-                "https://api.sonos.com/login/v3/oauth?client_id={0}&response_code=code&state=testState&scope=playback-control-all",
-                key));
+            var url = new Uri(
+                $"https://api.sonos.com/login/v3/oauth?client_id={key}&response_code=code&state=testState&scope=playback-control-all");
 
 
             try
@@ -147,15 +148,7 @@ namespace Smart.Home.Integration.Services
                     Credentials = null
                 }))
                 {
-                    client.Timeout = TimeSpan.FromMinutes(1);
-                    client.BaseAddress = new Uri(url);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Clear();
-
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
-                    {
-                        CharSet = "utf-8"
-                    });
+                    client.ConfigureClient(url);
 
                     client.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", Token);
@@ -239,14 +232,7 @@ namespace Smart.Home.Integration.Services
             {
                 using (var client = new HttpClient())
                 {
-                    client.Timeout = TimeSpan.FromMinutes(1);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Clear();
-                    client.BaseAddress = new Uri(url);
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
-                    {
-                        CharSet = "utf-8"
-                    });
+                    client.ConfigureClient(url);
 
                     client.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", Token);
@@ -352,14 +338,7 @@ namespace Smart.Home.Integration.Services
             {
                 using (var client = new HttpClient())
                 {
-                    client.Timeout = TimeSpan.FromMinutes(1);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Clear();
-                    client.BaseAddress = new Uri(url);
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
-                    {
-                        CharSet = "utf-8"
-                    });
+                    client.ConfigureClient(url);
 
                     client.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", Token);
@@ -400,15 +379,7 @@ namespace Smart.Home.Integration.Services
             {
                 using (var client = new HttpClient())
                 {
-                    client.Timeout = TimeSpan.FromMinutes(1);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Clear();
-                    client.BaseAddress = new Uri(baseUrl);
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
-                    {
-                        CharSet = "utf-8"
-                    });
-
+                    client.ConfigureClient(baseUrl);
                     client.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", Token);
 
@@ -431,20 +402,13 @@ namespace Smart.Home.Integration.Services
 
         public PlayBackStatusResponse GetPlaybackStatusResponse(string groupId)
         {
-            var baseUrl = "https://api.ws.sonos.com/control/api/v1/";
+            const string baseUrl = "https://api.ws.sonos.com/control/api/v1/";
 
             try
             {
                 using (var client = new HttpClient())
                 {
-                    client.Timeout = TimeSpan.FromMinutes(1);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Clear();
-                    client.BaseAddress = new Uri(baseUrl);
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
-                    {
-                        CharSet = "utf-8"
-                    });
+                    client.ConfigureClient(baseUrl);
 
                     client.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", Token);
@@ -480,15 +444,7 @@ namespace Smart.Home.Integration.Services
             {
                 using (var client = new HttpClient())
                 {
-                    client.Timeout = TimeSpan.FromMinutes(1);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Clear();
-                    client.BaseAddress = new Uri(baseUrl);
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
-                    {
-                        CharSet = "utf-8"
-                    });
-
+                    client.ConfigureClient(baseUrl);
                     client.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", Token);
 
@@ -546,16 +502,7 @@ namespace Smart.Home.Integration.Services
             {
                 using (var client = new HttpClient())
                 {
-
-
-                    client.Timeout = TimeSpan.FromMinutes(1);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Clear();
-                    client.BaseAddress = new Uri(baseUrl);
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
-                    {
-                        CharSet = "utf-8"
-                    });
+                    client.ConfigureClient(baseUrl);
 
                     client.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", Token);
@@ -592,6 +539,58 @@ namespace Smart.Home.Integration.Services
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+            }
+        }
+
+        public void JoinOrCreateSession(string groupId)
+        {
+            const string baseUrl = "https://api.ws.sonos.com/control/api/v1/";
+
+            try
+            {
+                using (var client= new HttpClient())
+                {
+                    client.ConfigureClient(baseUrl);
+                    client.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue("Bearer", Token);
+                    var body = new CreateJoinSessionRequest
+                    {
+                        //AccountId = "collismugy@hotmail.com",
+                        AppContext = "Collins",
+                        AppId = "com.test.sonosClient"
+                    };
+
+                    var json = JsonConvert.SerializeObject(body);
+
+                    using (var message= new HttpRequestMessage(HttpMethod.Post, $"groups/{groupId}/playbackSession/joinOrCreate"))
+                    {
+                        message.Headers.Clear();
+                        message.Headers.Accept.Clear();
+                        message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")
+                        {
+                            CharSet = "utf-8"
+                        });
+                        message.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                        var response = client.SendAsync(message).Result;
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var content = response.Content.ReadAsStringAsync().Result;
+
+                            return;
+                        }
+
+                        throw new Exception(response.Content.ReadAsStringAsync().Result);
+                    }
+
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
     }

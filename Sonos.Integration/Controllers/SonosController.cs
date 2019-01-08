@@ -33,8 +33,7 @@ namespace Sonos.Integration.Controllers
 
             var tok = _client.GetNewRefreshedToken("09efe8c1-d142-42fd-9248-5f966a6c31d8");
 
-
-            return null;
+            return tok;
         }
 
         /// <summary>
@@ -119,6 +118,16 @@ namespace Sonos.Integration.Controllers
         public void SwitchPlayerInputToTv(string playerId)
         {
             _client.SwitchPlayerToTv(playerId);
+        }
+
+        /// <summary>
+        /// Create or joins an existing session
+        /// </summary>
+        /// <param name="groupId"></param>
+        [HttpPost, Route("api/sonos/joinOrCreate/{groupId}")]
+        public void JoinOrCreateSonosSession(string groupId)
+        {
+            _client.JoinOrCreateSession(groupId);
         }
 
 
